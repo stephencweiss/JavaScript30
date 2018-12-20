@@ -62,12 +62,56 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.02s;
+      /* transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1); */
     }
 
   </style>
 
   <script>
+    const hourHand = document.querySelector('.hour-hand');
+    const minHand = document.querySelector('.min-hand')
+    const secondHand = document.querySelector('.second-hand')
+    
+    function getDegreeToRotate(timeInput, base) {
+      /**
+      * I: A number in base 24 or 60
+      * O: A number in base 360
+      */
+      if (base === 24) {
+        if (timeInput > 12) {
+          timeInput -= 12;
+        }
+        return ((timeInput / 12) * 360);
+      } else {
+        return ((timeInput / 60) * 360);
+      }
+    }
+    
+    function applyRotation(clockHand, clockAngle) {
+      clockHand.style.transform = `rotate(${clockAngle}deg)`;
+    }
 
+    function setDate() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const rotateOffset = 90;
+      const hoursAngle = getDegreeToRotate(hours , 24) + rotateOffset;
+      const minutesAngle = getDegreeToRotate(minutes, 60) + rotateOffset;
+      const secondsAngle = getDegreeToRotate(seconds, 60)  + rotateOffset;
+
+      hourHand.style.transform = `rotate(${hoursAngle}deg)`;
+      minHand.style.transform = `rotate(${minutesAngle}deg)`;
+      // secondHand.style.transform = `rotate(${secondsAngle}deg)`;
+      applyRotation(secondHand, secondsAngle)
+    }
+
+
+    setInterval(setDate, 1000);
 
   </script>
 </body>
