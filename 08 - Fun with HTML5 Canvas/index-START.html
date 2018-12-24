@@ -7,6 +7,66 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+  const canvas = document.querySelector('#draw');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  ctx.strokeStyle = '#109D33';
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.lineWidth = 10;
+
+  let isDrawing = false;
+  let lastX = 0;
+  let lastY = 0;
+  let hue = 0;
+  let strokeGrow = true;
+
+  function adjustHue () {
+    if (hue >= 360) { hue = 0}
+    return hue += 1
+  }
+
+  function adjustStrokeSize () {
+    if (strokeGrow === true) {
+      ctx.lineWidth += 1;
+    } else {
+      ctx.lineWidth -= 1;
+    }
+    adjustStrokeGrowth()
+  }
+
+  function adjustStrokeGrowth() {
+    if (ctx.lineWidth >= 100) {
+      strokeGrow = false;
+      return;
+    } 
+    if (ctx.lineWidth <= 10) {
+      strokeGrow = true;
+      return;
+    }
+    console.log(`Error: Uncaught case! Line width is -->`, ctx.lineWidth )
+  }
+
+  function draw(e) {
+    if (!isDrawing) return;
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY)
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+    adjustHue()
+    ctx.strokeStyle = `hsl(${hue}, 80%, 60%)`;
+    adjustStrokeSize()
+  }
+
+  canvas.addEventListener('mousemove', draw)
+  canvas.addEventListener('mousedown', (e) => {
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+    isDrawing = true
+    })
+  canvas.addEventListener('mouseup', () => {isDrawing = false})
+  canvas.addEventListener('mouseout', () => {isDrawing = false})
 </script>
 
 <style>
