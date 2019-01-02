@@ -7,6 +7,36 @@
 </head>
 <body>
 <script>
+
+  const pressed = [];
+  const secretCode = 'stephenweiss';
+
+  function limitArrayLength(array) {
+    const maxLength = secretCode.length;
+    const pastLimit = array.length < maxLength ? false : true; 
+    const deleteCount = pastLimit ? array.length - maxLength : 0;
+    array.splice(0, deleteCount);
+    return array;
+  }
+
+  function checkForSecret(array) {
+    if (array.join('').includes(secretCode)) {
+      console.log("ding, ding!")
+      return cornify_add()
+    }
+  }
+
+  function addKeyToPressed(key) {
+    pressed.push(key);
+  }
+
+  function handleClick(e) {
+    addKeyToPressed(e.key);
+    limitArrayLength(pressed);
+    checkForSecret(pressed);
+  }
+
+  window.addEventListener('keyup', handleClick)
 </script>
 </body>
 </html>
