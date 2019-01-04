@@ -8,12 +8,38 @@
 
   <script>
     // start with strings, numbers and booleans
+    let str = 'random';
+    let str2 = str;
+    console.log(str, str2) // random random
+    str = 'less';
+    console.log(str, str2) // less random
+    
+    let num = 200;
+    let num2 = num;
+    console.log(num, num2) // 200 200
+    num = 100;
+    console.log(num, num2) // 100 200
 
     // Let's say we have an array
     const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
 
     // and we want to make a copy of it.
+    const playersClone = Array.from(players);
+    const playersClone2 = [].concat(players);
+    const playersClone3 = [...players]
+    const playersClone4 = players.slice();
 
+    players.push('John');
+    playersClone.push('James');
+    playersClone2.push('Joan');
+    playersClone3.push('Jim');
+    playersClone4.push('Jack');
+
+    console.log('players --> ', players) // ['Wes', 'Sarah', 'Ryan', 'Poppy', 'John'];
+    console.log('playersClone --> ', playersClone) // ['Wes', 'Sarah', 'Ryan', 'Poppy', 'James'];
+    console.log('playersClone2 --> ', playersClone2) // ['Wes', 'Sarah', 'Ryan', 'Poppy', 'Joan'];
+    console.log('playersClone3 --> ', playersClone3) // ['Wes', 'Sarah', 'Ryan', 'Poppy', 'Jim'];
+    console.log('playersClone4 --> ', playersClone4) // ['Wes', 'Sarah', 'Ryan', 'Poppy', 'Jack'];
     // You might think we can just do something like this:
 
     // however what happens when we update that array?
@@ -45,8 +71,21 @@
     // and think we make a copy:
 
     // how do we take a copy instead?
+    const personClone = Object.assign({}, person)
+    personClone.age = 89
+    const personClone2 = {...person}
+    personClone2.name = 'Jack Johnson'
 
-    // We will hopefully soon see the object ...spread
+    const personCloneOptions = Object.assign({}, person, {DOB: '1/1/1980'})
+    const options = {name: 'Jack Johnson', DOB: '2/1/1980'}
+    const personCloneOptions2 = {... person, ... options}
+    
+    console.log(`person --> `, person) // { name: 'Wes Bos', age: 80 }
+    console.log(`personClone --> `, personClone) // { name: 'Wes Bos', age: 89 }
+    console.log(`personClone2 --> `, personClone2) // { name: 'Jack Johnson', age: 80 }
+    console.log(`personCloneOptions --> `, personCloneOptions) // { name: 'Wes Bos', age: 80, DOB: '1/1/1980' }
+    console.log(`personCloneOptions2 --> `, personCloneOptions2) // { name: 'Jack Johnson', age: 80, DOB: '2/1/1980' }
+
 
     // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
 
