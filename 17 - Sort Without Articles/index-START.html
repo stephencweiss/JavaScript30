@@ -48,6 +48,49 @@
 <script>
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 
+const articles = ['A', 'An', 'The']
+
+const sortWithoutArticles = (a, b) => {
+  aPrime = stripArticle(a.toLowerCase())
+  bPrime = stripArticle(b.toLowerCase())
+  if (aPrime < bPrime) { return -1 }
+  return 1; 
+}
+
+// const hasArticle = (word) => {
+//   let result = false;
+//   articles.forEach(article => {
+//     let length = article.length;
+//     const comparisonWord = word.slice(0, length);
+//     if (comparisonWord.toLowerCase() === article.toLowerCase()) {
+//       result = true;
+//       console.log(word.slice(length));
+//     }
+//   })
+//   return result;
+// }
+
+const stripArticle = (word) => {
+  // let result = word;
+  // articles.forEach(article => {
+  //   article = article.toLowerCase();
+  //   let length = article.length;
+  //   const comparisonWord = word.slice(0, length);
+  //   if ( comparisonWord === article ) {
+  //     result = word.slice(length).trim()
+  //   }
+  // })
+  return word.replace(/^(a |an |the )/i, '').trim()
+  return result;
+}
+
+let sortedBands = bands.sort(sortWithoutArticles)
+console.log(`sortedBands --> `, sortedBands);
+
+
+document.querySelector('#bands').innerHTML = sortedBands
+  .map(band => `<li>${band}</li>`).join('')
+
 
 </script>
 
